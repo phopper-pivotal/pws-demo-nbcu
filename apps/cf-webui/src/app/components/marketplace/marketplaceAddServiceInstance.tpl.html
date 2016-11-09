@@ -1,0 +1,87 @@
+<sidebar></sidebar>
+
+<div id="page-content" ng-style="{'marginLeft': rootFields.marginSidebar}">
+  <topbar></topbar>
+  
+  <breadcrumb></breadcrumb>
+
+  <messages></messages>
+  
+  <div class="fadein" ng-show="rootFields.showContent">
+    <div id="page-title">
+      <h1>Services Marketplace</h1>
+    </div><!-- /#page-title -->
+    
+    <div id="page-content-wrap" class="clearfix">
+      <div class="row" ng-hide="hideAddServiceInstance">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Add a service instance</h3>
+            </div>
+            <div class="panel-body">
+              <div class="add-service-instance row">
+                <div class="col-md-12">
+                  <form class="form-horizontal" role="form" name="formAddInstanceService">
+
+                    <div class="form-group" ng-show="showSelectOrganization">
+                      <label for="inputOrganization" class="col-sm-3 control-label">Organization</label>
+                      <div class="col-sm-9">
+                        <select type="text" class="form-control" id="inputOrganization" required ng-options="organization.id as organization.name for organization in organizations" ng-model="organizationId" ng-change="selectSpace()"></select>
+                      </div>
+
+                    </div>
+
+                    <div class="form-group" ng-show="showSelectSpace">
+                      <label for="inputSpace" class="col-sm-3 control-label">Space</label>
+                      <div class="col-sm-9">
+                        <select type="text" class="form-control" id="inputSpace" required ng-options="space.id as space.name for space in spaces" ng-model="spaceId" ng-change="selectApplication()"></select>
+                      </div>
+                    </div>
+
+                    <div class="form-group" ng-show="showSelectApplication">
+                      <label for="inputSpace" class="col-sm-3 control-label">Bind to an application (optional)</label>
+                      <div class="col-sm-9">
+                        <select type="text" class="form-control" id="inputSpace" ng-options="application.id as application.name for application in applications" ng-model="applicationId">
+                          <option value="">--</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Service</label>
+                      <div class="col-sm-9">
+                        <p class="form-control-static">{{service.label}}</p>
+                      </div>
+                    </div>
+  
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Service plan</label>
+                      <div class="col-sm-9">
+                        <p class="form-control-static">{{servicePlan.name}} ({{servicePlan.costs}})</p>
+                      </div>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="inputInstanceName" class="col-sm-3 control-label">Instance name</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputInstanceName" ng-model="instanceName" required>
+                      </div>
+                    </div>
+  
+                    <div class="form-group">
+                      <div class="col-sm-offset-3 col-sm-9">
+                        <button class="btn btn-primary" ng-click="addServiceInstance()" ng-disabled="formAddInstanceService.$invalid">Add</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.panel -->
+        </div>
+      </div><!-- /.row -->
+
+    </div><!-- /#page-content-wrap -->
+  </div>
+</div><!-- /#page-content -->

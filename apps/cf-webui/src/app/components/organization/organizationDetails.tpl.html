@@ -1,0 +1,181 @@
+<sidebar></sidebar>
+
+<div id="page-content" ng-style="{ 'marginLeft': rootFields.marginSidebar}">
+  <topbar ng-show="true"></topbar>
+  
+  <breadcrumb></breadcrumb>
+
+  <messages></messages>
+  
+  <div class="fadein" ng-show="rootFields.showContent">
+    <div id="page-title" class="clearfix">
+      <h1 class="pull-left">Organization: {{name}}</h1>
+      <div class="pull-right">
+        <a class="action action-edit" ng-click="editOrganization()" title="Edit"><i class="fa fa-lg fa-pencil"></i></a>
+        <a class="action action-delete" ng-show="rootFields.showOrgCreation" ng-click="deleteOrganization()" title="Delete"><i class="fa fa-lg fa-trash"></i></a>
+      </div>
+    </div><!-- /#page-title -->
+    
+    <div id="page-content-wrap" class="clearfix">
+  
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Quota</h3>
+            </div>
+            <div class="panel-body">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{usedQuotaPercent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{usedQuotaPercent}}%;">
+                  {{usedQuotaPercent | limitTo:4}}%
+                </div>
+              </div>
+              <p ng-show="spacesTotalQuota !== 0 && organizationTotalQuota !== 0">{{spacesTotalQuota}} MB of {{organizationTotalQuota}} MB limit</p>
+            </div>
+          </div><!-- /.panel -->
+        </div>
+      </div><!-- /.row -->
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h3 class="panel-title pull-left">Spaces <span class="label label-default">{{nrOfSpaces}}</span></h3>
+                    <a class="btn btn-success pull-right" ng-click="addSpace()"><i class="fa fa-plus"></i>&nbsp; Add a space</a>
+            </div>
+            <div  class="table-responsive"><table class="table table-striped table-hover has-actions">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Apps</th>
+                  <th>Services</th>
+                  <th>Memory</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="space in spaces" ng-click="showSpace(space.id, $event)" style="cursor: pointer">
+                  <td><a href="#/organizations/{{id}}/spaces/{{space.id}}">{{space.name}}</a></td>
+                  <td>
+                    <span class="label label-success label-responsive">{{space.nrOfStartedApps}} <span class="toggle-text">running</span></span>
+                    <span class="label label-danger label-responsive">{{space.nrOfCrashedApps}} <span class="toggle-text">crashed</span></span>
+                    <span class="label label-default label-responsive">{{space.nrOfStoppedApps}} <span class="toggle-text">stopped</span></span>
+                  </td>
+                  <td>{{space.nrOfServices}}</td>
+                  <td>{{space.memory}} MB</td>
+                  <td>
+                    <a class="action action-edit" ng-click="editSpace(space); $event.stopPropagation();" title="Edit"><i class="fa fa-lg fa-pencil"></i></a>
+                    <a class="action action-delete" ng-click="deleteSpace(space); $event.stopPropagation();" title="Delete"><i class="fa fa-lg fa-trash"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table></div>
+          </div><!-- /.panel -->
+        </div>
+  
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h3 class="panel-title pull-left">Domains <span class="label label-default">{{nrOfDomains}}</span></h3>
+                    <a ng-click="newDomain()" class="btn btn-success pull-right"><i class="fa fa-plus"></i>&nbsp; Add a domain</a>
+            </div>
+            <div  class="table-responsive"><table class="table table-striped table-hover has-actions">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="sharedDomain in sharedDomains | orderBy:name:false">
+                  <td>{{sharedDomain.entity.name}} <span class="label label-default">shared</span></td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr ng-repeat="privateDomain in privateDomains | orderBy:name:false">
+                  <td>{{privateDomain.entity.name}}</td>
+                  <td><a class="action action-delete" ng-click="deleteDomain(privateDomain)"><i class="fa fa-lg fa-trash"></i></a></td>
+                </tr>
+              </tbody>
+            </table></div>
+          </div><!-- /.panel -->
+        </div>
+
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h3 class="panel-title pull-left">Users <span class="label label-default">{{nrOfOrganizationUsers}}</span></h3>
+               <a ng-click="addUser()" class="btn btn-success pull-right" ng-show="currentUser.currentManager"><i class="fa fa-plus"></i>&nbsp; Add a user</a>
+            </div>
+            <div  class="table-responsive"><table class="table table-striped table-hover has-actions" ng-show="currentUser.currentManager">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Org Manager</th>
+                  <th>Org Auditor</th>
+                  <th>Billing Manager</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in users | orderBy:name:false">
+                  <td>{{user.name}}</td>
+                  <td>
+                    <a class="action action-add" ng-click="deleteManager(user.id)"><i class="fa fa-lg fa-check-square-o" ng-show="user.orgManager && !user.currentUser"></i></a>
+                    <a class="action action-delete" ng-click="addManager(user.name)"><i class="fa fa-lg fa-square-o" ng-show="!user.orgManager && 
+                    !user.currentUser"></i></a>
+                    &nbsp;<i class="fa fa-lg fa-check" ng-show="user.currentUser"></i>
+                  </td>
+                  <td>
+                    <a class="action action-add" ng-click="deleteAuditor(user.id)"><i class="fa fa-lg fa-check-square-o" ng-show="user.orgAuditor"></i></a>
+                    <a class="action action-delete" ng-click="addAuditor(user.name)"><i class="fa fa-lg fa-square-o" ng-hide="user.orgAuditor"></i></a>
+                  </td>
+                  <td>
+                    <a class="action action-add" ng-click="deleteBillingManager(user.id)"><i class="fa fa-lg fa-check-square-o" ng-show="user.billingManager"></i></a>
+                    <a class="action action-delete" ng-click="addBillingManager(user.name)"><i class="fa fa-lg fa-square-o" ng-hide="user.billingManager"></i></a>
+                  </td>
+                  <td>
+                    <a class="action action-delete" ng-click="disassociateUser(user)"><i class="fa fa-lg fa-trash" ng-hide="user.currentUser"></i></a>&nbsp;&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+              </table></div>
+              <div  class="table-responsive"><table class="table table-striped table-hover has-actions" ng-show="!currentUser.currentManager">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Org Manager</th>
+                  <th>Org Auditor</th>
+                  <th>Billing Manager</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in users | orderBy:name:false">
+                  <td>{{user.name}}</td>
+                  <td>
+                    <i class="fa fa-lg fa-check" ng-show="user.orgManager"></i>
+                    <i class="fa fa-lg fa-close" ng-show="!user.orgManager"></i>
+                  </td>
+                  <td>
+                    <i class="fa fa-lg fa-check" ng-show="user.orgAuditor"></i>
+                    <i class="fa fa-lg fa-close" ng-hide="user.orgAuditor"></i>
+                  </td>
+                  <td>
+                    <i class="fa fa-lg fa-check" ng-show="user.billingManager"></i>
+                    <i class="fa fa-lg fa-close" ng-hide="user.billingManager"></i>
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                  </div>
+                </tr>
+              </tbody>
+            </table></div>
+          </div><!-- /.panel -->
+        </div>
+  
+      </div><!-- /.row -->
+      
+    </div><!-- /#page-content-wrap -->
+  </div>
+</div><!-- /#page-content -->

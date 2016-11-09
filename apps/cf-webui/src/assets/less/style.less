@@ -1,0 +1,36 @@
+@import "_variables.less";
+@import "_mixins.less";
+
+html * {
+  outline: medium none !important;
+}
+
+body,
+html,
+#page {
+  height: 100%;
+}
+
+body {
+  background-color: @background-color;
+  font-family: @font-family;
+  font-size: @text-size;
+  color: @text-color;
+}
+
+a, a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#page {
+  position: relative;
+}
+
+@import "_sidebar.less";
+@import "_top.less";
+@import "_breadcrumb.less";
+@import "_content.less";
+
+/* Bootstrap overrides */
+@import "_bootstrap-overrides.less";

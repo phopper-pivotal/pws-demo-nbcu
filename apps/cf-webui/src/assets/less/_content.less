@@ -1,0 +1,158 @@
+#page-content {
+  background-color: @page-content-background-color;
+  position: relative;
+  margin-left: 220px;
+  min-height: 100%;
+}
+
+#page-content-wrap {
+  padding: 0 10px;
+}
+
+#page-title {
+  padding: 5px 10px;
+  width: 100%;
+  
+  h1 {
+    line-height: 30px;
+    font-size: 26px;
+    margin: 0 0 30px 0;
+  }
+}
+
+/* Login */
+#login {
+  margin: 0 auto;
+  width: 400px;
+  color: #fff;
+}
+
+#login-logo {
+  color: @logo-background-color;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  padding: 100px 0 20px 0;
+}
+
+#login-content {
+  background-color: #4a5660;
+  padding: 20px;
+  .border-radius(5px);
+  
+  h1 {
+    font-size: 19px;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+  }
+  
+  .form-control {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #ccc;
+    border: 0 none;
+    box-shadow: none;
+    padding: 10px 15px;
+    height: auto;
+  }
+  
+  .btn-link {
+    color: #fff;
+    
+  }
+}
+
+.action {
+  color: @text-color;
+  text-decoration: none;
+  
+  .fa {
+    padding: 0 0 0 5px;
+  }
+}
+
+.action-edit:hover {
+  color: #f0ad4e;
+}
+
+.action-delete:hover {
+  color: #d9534f;
+}
+
+.table {
+  .fa-lg {
+    vertical-align: 0;
+  }
+  
+  &.has-actions tr td:last-child,
+  &.has-actions tr th:last-child {
+    text-align: right;
+  }
+  
+  pre {
+    white-space: pre-wrap;
+  }
+}
+
+
+
+/* Services */
+.service-title,
+.service-type {
+  display: block;
+}
+
+.service-title {
+  font-weight: bold;
+}
+
+.select-service a {
+  display: block;
+  color: inherit;
+  padding: 10px;
+  float: left;
+  margin: 0 0 15px 0;
+  width: 49%;
+
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+
+/* Application EnvVar*/
+.word-break {
+  word-break: break-all;
+}
+
+/* map a route input field */
+.routeHost {
+  width: 100px;
+  float: left;
+  margin-right: 5px;
+}
+
+.routeDomain {
+  width: 260px;
+}
+
+
+/* Angular JS animation */
+.fadein,
+.fadeout {
+  -webkit-transition: all linear 0.5s;
+  -moz-transition: all linear 0.5s;
+  -o-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+}
+
+.fadein.ng-hide-remove,
+.fadeout.ng-hide-add.ng-hide-add-active {
+  opacity: 0;
+  display: block !important;
+}
+
+.fadeout.ng-hide-add,
+.fadein.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+  display: block !important;
+}

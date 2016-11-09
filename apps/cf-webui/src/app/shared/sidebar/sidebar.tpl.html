@@ -1,0 +1,15 @@
+<div id="page-sidebar" ng-controller="SidebarCtrl">
+  <ul id="sidebar-navigation">
+    <li id="logo"><a href="#">CF WebUI</a></li>
+    <li ng-repeat="organizationSidebar in organizationsSidebar" class="fadein" ng-show="rootFields.showContent">
+      <a href="#" ng-class="{active: isActive('/organizations/' + organizationSidebar.id)}" toggle-subnavi>{{organizationSidebar.name}}</a>
+      <ul>
+        <li><a href="#/organizations/{{organizationSidebar.id}}">Overview</a></li>
+        <li ng-repeat="spaceSidebar in organizationSidebar.spaces">
+          <a href="#/organizations/{{organizationSidebar.id}}/spaces/{{spaceSidebar.id}}" ng-class="{active: isActive('/organizations/' + organizationSidebar.id + '/spaces/' + spaceSidebar.id)}">{{spaceSidebar.name}}</a>
+        </li>
+      </ul>
+    </li>
+    <li ng-show="rootFields.showContent"><a href="#/marketplace" ng-class="{active: isActive('/marketplace')}">Marketplace</a></li>
+  </ul><!-- /#sidebar-navigation -->
+</div><!-- /#page-sidebar -->
